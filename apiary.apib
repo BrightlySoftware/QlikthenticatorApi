@@ -1,0 +1,173 @@
+FORMAT: 1A
+HOST: https://v1.qlik.dudesolutions.io
+
+USECOMMONSDKLIBRARY: TRUE
+GENERATEASYNCCODE: TRUE
+GENERATEINTERFACES: TRUE
+USEMETHODPREFIX: TRUE
+USEMODELPOSTFIX: FALSE
+USECONTROLLERPOSTFIX: FALSE
+USEENUMPOSTFIX: FALSE
+USECONSTRUCTORSFORCONFIG: TRUE
+CSHARPDEFAULTNAMESPACE: DSI.SDK.Qlikthenticator
+JAVADEFAULTNAMESPACE: io.dudesolutions.qlikthenticator
+BRANDLABEL: Dude Solutions, Inc.
+USERAGENT: Dude SDK
+NULLIFY404: TRUE
+VALIDATEREQUIREDPARAMETERS: FALSE
+COLLECTPARAMETERS: TRUE
+ARRAYSERIALIZATION: Plain
+
+# Dude Qlikthenticator Api
+
+## Reference
+Good reference document: https://raw.githubusercontent.com/apiaryio/api-blueprint/master/examples/Polls%20API.md
+
+## Authentication
+Dude Qlikthenticator Api uses OAuth v2 Authentication. First you create a new (or acquire existing) OAuth v2 token using [DudeAuth](https://www.dudeauth.com/).
+
+## Media Types
+Where applicable this API uses the *JSON* media-type to represent resources.
+
+Requests and responses with a message-body use plain JSON to set or update resources.
+
+## Error States
+Common [HTTP Response Status Codes](https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md) are used throughout this API.
+
+In addition to standard response codes the response object returned from the server during an exception event may contain additional information in the following JSON format:
+{
+ "message": "SOME MESSAGE",
+ "dudeReferenceId": "3523845A-4729-4CCB-9E16-01DEADF6C2DF",
+ "stackTrace": "Null, Typically"
+ }
+
+## Data Restriction
+AccountId and subsequent User must pass a product and role check respectively, in order to receive a Qlik Ticket.
+
+# Group System Information
+General system status endpoints
+
+## System Information Check [/]
+Retrieve api version, vitals, links, etc.
+
+### Retrieve System Information [GET]
+
++ Response 200 (application/json)
+    + Headers
+
+            X-Join-The-Dude:http://bit.ly/dudetechjobs
+
+    + Attributes (System Information)
+
+# Group Heartbeat
+Is service up or down.
+
+## Heartbeat [/heartbeat]
+The heartbeat is exposed and provided to check for availability of the service.
+Any response that does not provide a ```200 OK``` response code should be treated as an error.
+
+### Retreive Heartbeat Information [GET]
+
++ Response 200 (application/json)
+    + Headers
+
+            X-Join-The-Dude:http://bit.ly/dudetechjobs
+
+    + Attributes (Heartbeat)
+
+# Group Qlikthenticator
+Interacts with the Qlik Sense Server
+
+## Qlik Ticket [/accounts/{accountId}/qliktickets?id={id}]
+This endpoint provides a 'qlik-ticket' to a client, which enables dialogue between the client and Qlik Sense Server.
++ Parameters
+    + accountId: 1 (number, required) - {INT} The account ID the qlik ticket will associate itself to.
+    + id: 123 (number, optional) - *{INT} No longer used - prior purpose unknown - exists still within the UI however.*
+
+### Acquire a new Qlik Ticket [POST]
+
++ Request (application/json)
+  + Attributes (Qlik Ticket Request)
+
++ Response 200 (application/json)
+    + Headers
+
+            X-Join-The-Dude:http://bit.ly/dudetechjobs
+
+    + Attributes (Qlik Ticket Response)
+
+# Group Custom Visualizations
+Provides Custom Visualization App Data
+
+## Custom Visualization Retrieval [/accounts/{accountId}/customvisualizations{?page,pagesize}]
+This endpoint retrieves Custom Visualization App information, in paged manner
++ Parameters
+    + accountId: 1 (number, required) - {INT} The account ID the qlik ticket will associate itself to.
+    + page: 1 (number, optional) - {INT} The page to request from the collection.
+    + pagesize: 1000 (number, optional) - {INT} The number of records to load in a page from the collection.
+
+### Retrieve Custom Visualizations [GET]
+
++ Response 200 (application/json)
+    + Headers
+
+            X-Join-The-Dude:http://bit.ly/dudetechjobs
+
+    + Attributes (Custom Visualizations Response Base)
+          + data (required, array[Custom Visualization]) - The Custom Visualizations for Account response collection
+
+# Data Structures
+
+## System Information (object)
+Represents the System Information response.
+
+### Properties
++ `application`: `Dude Qlikthenticator Api` (string, required) - The name of the application.
++ `version` : `0.0.0.0` (string, required) - The assembly version.
++ `apiVersion` : `0.0.0.0` (string, required) - The API version.
++ `vitals` (Heartbeat, required) - The state of the system dependencies.
++ `links` (array[System Links], required) - The API routes.
+
+## System Links (object)
+Represents the API routes.
+
+### Properties
++ `endpoint` : `System` (string, required) - The name of the endpoint.
++ `action` : `GET` (string, required) - The REST action.
++ `route` : `/` (string, required) - The route to the endpoint.
+
+## Heartbeat (object)
+Represents a heartbeat response.
+
+### Properties
++ `qlikthenticatorvitalcheck`: true (boolean, required) - Vital check to ensure Qlikthenticator is online.
+
+## Qlik Ticket Request (object)
+Represents the QlikTicketRequest paypload
+
+### Properties
+  + `UserId` : 123456 (number, required) - User whom is requesting a Qlik Ticket
+  + `UserDirectory` : `DUDEPLATFORM` (string, required) - relates to Qlik Sense Server and User base organization, presently only `DUDE PLATFORM` is valid.
+
+## Qlik Ticket Response (object)
+Represents the interface to generate a Qlik Ticket
+
+### Properties
++ `ticket`: 123456 (string, required) - The generated Qlik Ticket.
+
+## Custom Visualizations Response Base (object)
+Represents the paged result data
+
+### Properties
++ `page`: 1 (number, required) - {INT} Current page of the paged result set.
++ `total`: 1 (number, required) - {INT} Total count of individual records (not pages).
++ `dataSize`: 1000 (number, required) - {INT} The total records returned in the response.
++ `pageSize`: 1 (number, required) - {INT} Number of records presented per page.
+
+## Custom Visualization (object)
+Represents a single CV record in the data.
+
+### Properties
++ `id`: 12343 (string, required) - CV record id.
++ `name`: `CV-123456` (string, required) - CV Name.
++ `publishTime`: `11-11-11` (string, required) - CV publish time.

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>DSI.SDK.QlikthenticatorApi</id>
+    <title>Auto Generated Qlikthenticator Api SDK</title>
+    <version>$version$</version>
+    <authors>Dude Solutions, Inc.</authors>
+    <owners>Dude Solutions, Inc.</owners>
+    <description>Qlikthenticator Api allows developers a means by which to generate Qlik Sense Server tokens, necessary for programmatically interacting with the Qlik APIs and other web services offered.</description>
+    <copyright>Copyright © 2017 Dude Solutions, Inc. - All Rights Reserved</copyright>
+    <projectUrl>https://github.com/DudeSolutions/DudeQlikthenticatorApi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <language>en-US</language>
+    <tags>sdk qlikthenticator api</tags>
+    <dependencies>
+      <group targetFramework="net45">
+        <dependency id="Microsoft.Bcl" version="1.1.10" />
+        <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+        <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
+        <dependency id="Microsoft.Net.Http" version="2.2.29" />
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+        <dependency id="Unirest-APIMATIC" version="1.0.1.26" />
+        <dependency id="APIMATIC.SDK.Common" version="1.0.1.39" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="code\DudeQlikthenticatorApi.PCL\bin\$configuration$\DudeQlikthenticatorApi.PCL.dll" target="lib\net45" />
+  </files>
+</package>
